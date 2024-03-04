@@ -56,9 +56,9 @@ def product_scraping(product_url):
                 
                 options = ["", "", "", ""]
                 counter = 1
-                if len(variant) > 1:
-                    key = list(variant.items())
-                    var_url = f'{product_url}?{key[0][0]}={key[0][1].replace(" ", "+").replace(":", "%3A")}&{key[1][0]}={key[1][1].replace(" ", "+").replace(":", "%3A")}'
+                if len(variant) == 2:
+                    keys, values = list(variant.items())
+                    var_url = f'{product_url}?{keys[0]}={values[0].replace(" ", "+").replace(":", "%3A")}&{keys[1]}={values[1].replace(" ", "+").replace(":", "%3A")}'
                     options[counter] = key.replace("attribute_", "").title() + ": " + value
                     counter += 1
                 else:
@@ -133,6 +133,7 @@ def product_scraping(product_url):
             "Stock": available,
             "Available": cart,
             'Option#1': "",
+            'Option#2': "",
         }
         parsed_products.append(product_info)
 
@@ -144,7 +145,7 @@ def result(parsed_products, write_header=True):
         return
 
     with open('labequipsupply.csv', 'a', newline='', encoding='utf-8') as f:
-        fieldnames = ["Title", "Product URL", "SKU", "Image URL", "Price", "Stock", "Available", "Option#1"]
+        fieldnames = ["Title", "Product URL", "SKU", "Image URL", "Price", "Stock", "Available", "Option#1", "Option#2"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
 
         if write_header and f.tell() == 0:
