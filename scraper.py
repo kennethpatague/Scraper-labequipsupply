@@ -53,13 +53,19 @@ def product_scraping(product_url):
         if not isinstance(attrs, bool):
             for attr in attrs:
                 variant = attr['attributes']
-
+                
                 options = ["", "", "", ""]
                 counter = 1
-                for key, value in variant.items():
-                    var_url = f'{product_url}?{key}={value.replace(" ", "+").replace(":", "%3A")}'
+                if len(variant) > 1:
+                    key = list(variant.items())
+                    var_url = f'{product_url}?{key[0][0]}={key[0][1].replace(" ", "+").replace(":", "%3A")}&{key[1][0]}={key[1][1].replace(" ", "+").replace(":", "%3A")}'
                     options[counter] = key.replace("attribute_", "").title() + ": " + value
                     counter += 1
+                else:
+                    for key, value in variant.items():
+                        var_url = f'{product_url}?{key}={value.replace(" ", "+").replace(":", "%3A")}'
+                        options[counter] = key.replace("attribute_", "").title() + ": " + value
+                        counter += 1
 
                 print(f"Scraping {var_url}")
 
@@ -91,7 +97,8 @@ def product_scraping(product_url):
                     "Price": "R" + str(price),
                     "Stock": available,
                     "Available": cart,
-                    "Option#1": option1
+                    "Option#1": option1,
+                    "Option#2": option2,
                 }
 
                 parsed_products.append(product_info)
