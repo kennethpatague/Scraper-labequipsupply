@@ -32,6 +32,17 @@ def product_scraping(product_url):
     html_content = HTMLParser(res)
     forms = html_content.css_first('form.variations_form.cart')
     title = html_content.css_first('h1')
+    add_to_cart = html_content.css_first('button.single_add_to_cart_button button.alt')
+
+    in_stock = False
+    if add_to_cart:
+        in_stock = True
+        
+        if in_stock == True:
+            cart = "Yes"
+        else:
+            cart = "No"
+
 
     parsed_products = []
     if forms:
@@ -75,6 +86,7 @@ def product_scraping(product_url):
                     "Image URL": image_url,
                     "Price": "R" + str(price),
                     "Stock": available,
+                    "Available": cart,
                     "Option#1": option1
                 }
 
@@ -107,6 +119,7 @@ def product_scraping(product_url):
             "Image URL": image_url,
             "Price": price,
             "Stock": available,
+            "Available": cart,
             'Option#1': "",
         }
         parsed_products.append(product_info)
@@ -119,7 +132,7 @@ def result(parsed_products, write_header=True):
         return
 
     with open("labequipsupply.com.csv", 'a', newline='', encoding='utf-8') as f:
-        fieldnames = ["Title", "Product URL", "SKU", "Image URL", "Price", "Stock", "Option#1"]
+        fieldnames = ["Title", "Product URL", "SKU", "Image URL", "Price", "Stock", "Available", "Option#1"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
 
         if write_header and f.tell() == 0:
