@@ -94,6 +94,7 @@ def product_scraping(product_url):
 
         else:
             print(f"Check this product {product_url}")
+            
     else:
         print(f"Scraping {product_url}")
 
@@ -131,7 +132,7 @@ def result(parsed_products, write_header=True):
         print("No product found")
         return
 
-    with open("labequipsupply.com.csv", 'a', newline='', encoding='utf-8') as f:
+    with open('labequipsupply.co.za.csv', 'a', newline='', encoding='utf-8') as f:
         fieldnames = ["Title", "Product URL", "SKU", "Image URL", "Price", "Stock", "Available", "Option#1"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
 
@@ -140,6 +141,8 @@ def result(parsed_products, write_header=True):
 
         for product in parsed_products:
             writer.writerow(product)
+        
+        f.flush()
 
 def scrape_and_write(product_url):
     scraped_products = product_scraping(product_url)
@@ -165,6 +168,7 @@ def main():
     except Exception as e:
         print(f"An error occurred: {e}")
         os._exit(1)
+
 
 if __name__ == '__main__':
     main()
