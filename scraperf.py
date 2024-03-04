@@ -132,7 +132,7 @@ def result(parsed_products, write_header=True):
         print("No product found")
         return
 
-    with open('labequipsupply.co.za.csv', 'a', newline='', encoding='utf-8') as f:
+    with open('labequipsupply.csv', 'a', newline='', encoding='utf-8') as f:
         fieldnames = ["Title", "Product URL", "SKU", "Image URL", "Price", "Stock", "Available", "Option#1"]
         writer = csv.DictWriter(f, fieldnames=fieldnames)
 
