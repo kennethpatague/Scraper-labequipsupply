@@ -32,9 +32,10 @@ def product_scraping(product_url):
     html_content = HTMLParser(res)
     forms = html_content.css_first('form.variations_form.cart')
     title = html_content.css_first('h1')
-    add_to_cart = html_content.css_first('button.single_add_to_cart_button button.alt')
+    add_to_cart = html_content.css_first('button.single_add_to_cart_button.button.alt')
 
     in_stock = False
+    cart = ''
     if add_to_cart:
         in_stock = True
         
