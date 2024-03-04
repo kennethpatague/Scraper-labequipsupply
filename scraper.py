@@ -71,7 +71,8 @@ def product_scraping(product_url):
                 if availability:
                     available = availability.get_text()
                 elif stock_html.select_one('span.stock.available-on-backorder'):
-                    available = availability.get_text()
+                    backorder = stock_html.select_one('span.stock.available-on-backorder')
+                    available = backorder.get_text()
                 else:
                     available = ""
 
