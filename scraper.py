@@ -58,9 +58,11 @@ def product_scraping(product_url):
                 counter = 1
                 if len(variant) == 2:
                     keys, values = list(variant.items())
-                    var_url = f'{product_url}?{keys[0]}={values[0].replace(" ", "+").replace(":", "%3A")}&{keys[1]}={values[1].replace(" ", "+").replace(":", "%3A")}'
-                    options[counter] = key.replace("attribute_", "").title() + ": " + value
-                    counter += 1
+                    var_url = f'{product_url}?{keys[0]}={keys[1].replace(" ", "+").replace(":", "%3A")}&{values[0]}={values[1].replace(" ", "+").replace(":", "%3A")}'
+                    
+                    for key, value in variant.items():
+                        options[counter] = key.replace("attribute_", "").title() + ": " + value
+                        counter += 1
                 else:
                     for key, value in variant.items():
                         var_url = f'{product_url}?{key}={value.replace(" ", "+").replace(":", "%3A")}'
